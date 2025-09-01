@@ -18,7 +18,7 @@ import {
 export default function MinimalSolarChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  
+
   interface Message {
     id: number;
     type: 'user' | 'bot';
@@ -105,7 +105,7 @@ export default function MinimalSolarChatWidget() {
         setTimeout(() => {
           const welcomeMessage = {
             id: 1,
-            type: 'bot',
+            type: 'bot' as const,
             content: 'Xin chào! ☀️ Tôi là trợ lý tư vấn năng lượng mặt trời. Tôi có thể giúp bạn:\n\n• Tư vấn hệ thống điện mặt trời\n• Tính toán công suất phù hợp\n• Báo giá và lắp đặt\n• Chính sách hỗ trợ\n\nBạn quan tâm đến vấn đề gì?',
             timestamp: new Date()
           };
@@ -148,7 +148,7 @@ export default function MinimalSolarChatWidget() {
     
     const newMessage = {
       id: Date.now(),
-      type: 'bot',
+      type: 'bot' as const,
       content: text,
       timestamp: new Date()
     };
@@ -162,7 +162,7 @@ export default function MinimalSolarChatWidget() {
 
     const userMessage = {
       id: Date.now(),
-      type: 'user',
+      type: 'user' as const,
       content: inputValue,
       timestamp: new Date()
     };
