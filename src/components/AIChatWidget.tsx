@@ -18,7 +18,15 @@ import {
 export default function MinimalSolarChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState<any[]>([]);
+  
+  interface Message {
+    id: number;
+    type: 'user' | 'bot';
+    content: string;
+    timestamp: Date;
+  }
+  
+  const [messages, setMessages] = useState<Message[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState('');
