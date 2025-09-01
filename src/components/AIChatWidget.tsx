@@ -18,23 +18,23 @@ import {
 export default function MinimalSolarChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
   const [isMinimized, setIsMinimized] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<any[]>([]);
   const [inputValue, setInputValue] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [streamingMessage, setStreamingMessage] = useState('');
   const [isClient, setIsClient] = useState(false);
-  const [copiedMessageId, setCopiedMessageId] = useState(null);
-  const [likedMessages, setLikedMessages] = useState(new Set());
-  const [dislikedMessages, setDislikedMessages] = useState(new Set());
+  const [copiedMessageId, setCopiedMessageId] = useState<number | null>(null);
+  const [likedMessages, setLikedMessages] = useState(new Set<number>());
+  const [dislikedMessages, setDislikedMessages] = useState(new Set<number>());
   const [showWelcome, setShowWelcome] = useState(true);
   const [chatSize, setChatSize] = useState({ width: 384, height: 500 });
   const [isResizing, setIsResizing] = useState(false);
   
-  const messagesEndRef = useRef(null);
-  const inputRef = useRef(null);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement>(null);
 
-  // Resize functionality - optimized
-  const handleMouseDown = (e, direction) => {
+  // Resize functionality - optimized with proper types
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, direction: string) => {
     e.preventDefault();
     e.stopPropagation();
     setIsResizing(true);
@@ -44,7 +44,7 @@ export default function MinimalSolarChatWidget() {
     const startWidth = chatSize.width;
     const startHeight = chatSize.height;
 
-    const handleMouseMove = (moveEvent) => {
+    const handleMouseMove = (moveEvent: MouseEvent) => {
       // Use requestAnimationFrame for smooth updates
       requestAnimationFrame(() => {
         const deltaX = startX - moveEvent.clientX;
@@ -128,7 +128,7 @@ export default function MinimalSolarChatWidget() {
     setIsMinimized(false);
   };
 
-  const simulateStreaming = async (text) => {
+  const simulateStreaming = async (text: string) => {
     setIsTyping(true);
     await new Promise(resolve => setTimeout(resolve, 500));
     setIsTyping(false);
@@ -185,14 +185,14 @@ export default function MinimalSolarChatWidget() {
     }, 300);
   };
 
-  const handleKeyPress = (e) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
       handleSendMessage();
     }
   };
 
-  const copyMessage = async (content, messageId) => {
+  const copyMessage = async (content: string, messageId: number) => {
     try {
       await navigator.clipboard.writeText(content);
       setCopiedMessageId(messageId);
@@ -202,7 +202,7 @@ export default function MinimalSolarChatWidget() {
     }
   };
 
-  const handleLike = (messageId) => {
+  const handleLike = (messageId: number) => {
     setLikedMessages(prev => {
       const newSet = new Set(prev);
       if (newSet.has(messageId)) {
@@ -219,7 +219,7 @@ export default function MinimalSolarChatWidget() {
     });
   };
 
-  const handleDislike = (messageId) => {
+  const handleDislike = (messageId: number) => {
     setDislikedMessages(prev => {
       const newSet = new Set(prev);
       if (newSet.has(messageId)) {
@@ -498,7 +498,7 @@ export default function MinimalSolarChatWidget() {
                             onKeyPress={handleKeyPress}
                             placeholder="Nhập câu hỏi..."
                             className="w-full resize-none bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent max-h-20"
-                            rows="1"
+                            rows={1}
                             disabled={isTyping}
                           />
                         </div>

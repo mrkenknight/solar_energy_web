@@ -11,12 +11,12 @@ export default function SubscriptionPlanSection() {
         "Trả góp linh hoạt, kiểm soát chi phí"
     ];
 
-    const fadeInRight = {
-        initial: { opacity: 0, x: -50 },
-        whileInView: { opacity: 1, x: 0 },
-        transition: { duration: 0.8, ease: "easeOut" },
-        viewport: { once: true }
-    }
+    // const fadeInRight = {
+    //     initial: { opacity: 0, x: -50 },
+    //     whileInView: { opacity: 1, x: 0 },
+    //     transition: { duration: 0.8, ease: "easeOut" },
+    //     viewport: { once: true }
+    // }
     
     const fadeInLeft = {
         initial: { opacity: 0, x: 50 },
