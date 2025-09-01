@@ -29,7 +29,6 @@ export default function MinimalSolarChatWidget() {
   const [showWelcome, setShowWelcome] = useState(true);
   const [chatSize, setChatSize] = useState({ width: 384, height: 500 });
   const [isResizing, setIsResizing] = useState(false);
-  const [resizeStart, setResizeStart] = useState({ x: 0, y: 0, width: 0, height: 0 });
   
   const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
@@ -275,7 +274,7 @@ export default function MinimalSolarChatWidget() {
           {/* Resizable Chat Window */}
           {isOpen && (
             <div className="fixed bottom-6 right-6 z-40">
-                              <div 
+              <div 
                 className={`bg-white rounded-2xl shadow-2xl border border-gray-200 flex flex-col overflow-hidden relative ${
                   isMinimized ? 'h-14' : ''
                 } ${isResizing ? 'transition-none' : 'transition-all duration-300'}`}

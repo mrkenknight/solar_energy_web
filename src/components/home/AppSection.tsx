@@ -110,9 +110,10 @@ export default function AppSection() {
                         <div className="flex items-center space-x-6 p-6 bg-white/50 backdrop-blur-sm rounded-2xl border border-amber-200/30 shadow-lg">
                             <div className="relative">
                                 <div className="absolute inset-0 bg-gradient-to-br from-amber-200/30 to-yellow-300/20 rounded-xl blur-lg"></div>
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
                                 <img 
                                     src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://www.sunrun.com/&bgcolor=fcfaf6" 
-                                    alt="QR Code" 
+                                    alt="QR Code để tải ứng dụng" 
                                     className="relative w-24 h-24 rounded-lg border border-amber-200/40" 
                                 />
                             </div>
@@ -124,9 +125,10 @@ export default function AppSection() {
                                     whileTap={{ scale: 0.95 }}
                                     className="block"
                                 >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img 
                                         src="https://upload.wikimedia.org/wikipedia/commons/3/3c/Download_on_the_App_Store_Badge.svg" 
-                                        alt="App Store" 
+                                        alt="Tải về từ App Store" 
                                         className="h-12 hover:opacity-80 transition-opacity" 
                                     />
                                 </motion.a>
@@ -137,9 +139,10 @@ export default function AppSection() {
                                     whileTap={{ scale: 0.95 }}
                                     className="block"
                                 >
+                                    {/* eslint-disable-next-line @next/next/no-img-element */}
                                     <img 
                                         src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" 
-                                        alt="Google Play" 
+                                        alt="Tải về từ Google Play" 
                                         className="h-12 hover:opacity-80 transition-opacity" 
                                     />
                                 </motion.a>
