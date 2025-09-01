@@ -1,9 +1,11 @@
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import { motion, Variants } from 'framer-motion';
 
 export default function HeroSection() {
+  const [isHovered, setIsHovered] = useState(false);
+
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -51,7 +53,7 @@ export default function HeroSection() {
       </video>
 
       {/* Subtle overlay only for text readability */}
-      <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-transparent to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent"></div>
 
       {/* Content */}
       <motion.div
@@ -64,33 +66,167 @@ export default function HeroSection() {
           {/* Main Heading */}
           <motion.h1
             variants={itemVariants}
-            className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight text-white mb-6 leading-tight"
+            className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight text-white mb-6 leading-tight"
             style={{
-              textShadow: '2px 2px 4px rgba(0,0,0,0.7)',
+              color: '#ffffff', // giữ trắng sáng
+              WebkitTextStroke: '1px rgba(255,255,255,0.4)', // viền sáng nhẹ quanh chữ
+              textShadow: '0 4px 12px rgba(0,0,0,0.4)',      // bóng mềm để tách khỏi nền
             }}
           >
-            Your home for<br />
-            clean energy
+            ĐIỆN XANH SOLAR<br />
+            VĨNH PHÚC
           </motion.h1>
 
           {/* Subtitle */}
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-green-400 font-medium mb-10 max-w-lg"
+            className="text-4xl md:text-6xl text-white font-lavishly mb-10 whitespace-nowrap"
             style={{
-              textShadow: '1px 1px 2px rgba(0,0,0,0.6)',
+              color: '#ffffff', // trắng sáng
+              WebkitTextStroke: '0.5px rgba(255,255,255,0.3)', // viền sáng mảnh hơn tiêu đề
+              textShadow: '0 3px 8px rgba(0,0,0,0.35)',        // bóng mềm, giúp chữ nổi mà vẫn tinh tế
             }}
           >
-            Freedom from high electric bills...forever
+            Điện xanh lan tỏa - Chuyển hóa tương lai
           </motion.p>
 
-          {/* CTA Button */}
-          <motion.div variants={itemVariants}>
-            <button
-              className="bg-white text-black rounded-full px-10 py-4 text-lg font-bold hover:bg-gray-100 transition-all duration-300 ease-in-out transform hover:scale-105 shadow-lg"
+          {/* Enhanced CTA Button */}
+          <motion.div 
+            variants={itemVariants}
+            className="relative inline-block"
+          >
+            {/* Glow effect background */}
+            <motion.div
+              className="absolute inset-0 rounded-full blur-xl opacity-30"
+              style={{
+                background: 'linear-gradient(135deg, #16a34a, #059669, #047857)', // xanh lá emerald
+              }}
+              animate={{
+                scale: isHovered ? 1.2 : 1,
+                opacity: isHovered ? 0.5 : 0.3,
+              }}
+              transition={{ duration: 0.3 }}
+            />
+            
+            {/* Main button */}
+            <motion.button
+              className="relative group overflow-hidden rounded-full px-12 py-5 text-lg font-bold text-white shadow-2xl"
+              style={{
+                background: 'linear-gradient(135deg, #16a34a, #059669, #047857)',
+              }}
+              onHoverStart={() => setIsHovered(true)}
+              onHoverEnd={() => setIsHovered(false)}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: '0 25px 50px rgba(250, 204, 21, 0.4)', // glow vàng
+              }}
+              whileTap={{ 
+                scale: 0.98,
+                transition: { duration: 0.1 }
+              }}
+              transition={{ 
+                duration: 0.3,
+                ease: "easeInOut"
+              }}
             >
-              Get a quote
-            </button>
+              {/* Shimmer effect */}
+              <motion.div
+                className="absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-yellow-200/30 to-transparent"
+                animate={{
+                  translateX: isHovered ? '200%' : '-100%',
+                }}
+                transition={{
+                  duration: 0.8,
+                  ease: "easeInOut"
+                }}
+              />
+              
+              {/* Ripple effect on hover */}
+              <motion.div 
+                className="absolute inset-0 rounded-full"
+                style={{
+                  background: 'radial-gradient(circle, rgba(250,204,21,0.3) 0%, transparent 70%)', // ripple vàng
+                }}
+                initial={{ scale: 0, opacity: 0 }}
+                animate={{
+                  scale: isHovered ? 2 : 0,
+                  opacity: isHovered ? 1 : 0,
+                }}
+                transition={{ duration: 0.6 }}
+              />
+              
+              {/* Solar icon and text */}
+              <span className="relative flex items-center gap-3">
+                <motion.svg 
+                  className="w-6 h-6" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                  animate={{ 
+                    rotate: isHovered ? 180 : 0,
+                  }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                </motion.svg>
+                <motion.span
+                  animate={{
+                    x: isHovered ? 2 : 0,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  Đặt hàng ngay
+                </motion.span>
+                <motion.svg 
+                  className="w-5 h-5" 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                  animate={{ 
+                    x: isHovered ? 5 : 0,
+                    opacity: isHovered ? 1 : 0.7,
+                  }}
+                  transition={{ duration: 0.3 }}
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </motion.svg>
+              </span>
+              
+              {/* Pulse effect */}
+              <motion.div
+                className="absolute inset-0 rounded-full border-2 border-white/50"
+                animate={{
+                  scale: [1, 1.1, 1],
+                  opacity: [0.5, 0, 0.5],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                }}
+              />
+            </motion.button>
+            
+            {/* Floating particles effect */}
+            {[...Array(4)].map((_, i) => (
+              <motion.div
+                key={i}
+                className="absolute w-1.5 h-1.5 bg-green-400/60 rounded-full"
+                style={{
+                  left: `${20 + i * 20}%`,
+                  top: `${30 + (i % 2) * 40}%`,
+                }}
+                animate={{
+                  y: [-5, -15, -5],
+                  opacity: [0.3, 0.8, 0.3],
+                  scale: [0.5, 1, 0.5],
+                }}
+                transition={{
+                  duration: 2 + i * 0.3,
+                  repeat: Infinity,
+                  delay: i * 0.2,
+                }}
+              />
+            ))}
           </motion.div>
         </div>
       </motion.div>
