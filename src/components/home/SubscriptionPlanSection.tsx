@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { motion, easeOut } from 'framer-motion';
 import { Sparkles } from 'lucide-react';
 
 export default function SubscriptionPlanSection() {
@@ -21,7 +21,7 @@ export default function SubscriptionPlanSection() {
     const fadeInLeft = {
         initial: { opacity: 0, x: 50 },
         whileInView: { opacity: 1, x: 0 },
-        transition: { duration: 0.8, ease: "easeOut" },
+        transition: { duration: 0.8, ease: easeOut },
         viewport: { once: true }
     }
 
