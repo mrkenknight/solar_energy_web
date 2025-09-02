@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useCallback } from 'react';
 import { ChatSize } from './types';
 import { useConversationManager } from './conversationManager';
 import { DifyApiService } from './difyApiService';
@@ -31,7 +31,12 @@ export function useChatbot() {
     console.log('Show welcome:', conversationManager.showWelcome);
     console.log('Is typing:', conversationManager.isTyping);
     console.log('===============================');
-  }, [conversationManager.conversationId, conversationManager.messages.length]);
+  }, [
+    conversationManager.conversationId,
+    conversationManager.messages.length,
+    conversationManager.isTyping,
+    conversationManager.showWelcome
+  ]);
 
   // Client initialization
   useEffect(() => {
@@ -45,16 +50,16 @@ export function useChatbot() {
         conversationManager.showWelcomeMessage();
       }, 300);
     }
-  }, [isOpen, conversationManager.showWelcome, conversationManager.messages.length, conversationManager]);
+  }, [isOpen, conversationManager.showWelcome, conversationManager.messages.length, conversationManager.showWelcomeMessage]);
 
   // Scroll to bottom when new messages
-  const scrollToBottom = () => {
+  const scrollToBottom = useCallback(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  };
+  }, []);
 
   useEffect(() => {
     scrollToBottom();
-  }, [conversationManager.messages, conversationManager.isTyping, conversationManager.streamingMessage]);
+  }, [conversationManager.messages, conversationManager.isTyping, conversationManager.streamingMessage, scrollToBottom]);
 
   // Focus input when chat opens
   useEffect(() => {
@@ -64,7 +69,7 @@ export function useChatbot() {
   }, [isOpen, isMinimized]);
 
   // 🚀 OPTIMIZED: Real-time streaming message handler
-  const handleSendMessage = async () => {
+  const handleSendMessage = useCallback(async () => {
     if (!inputValue.trim() || conversationManager.isTyping) {
       console.log('⚠️ Message blocked:', {
         isEmpty: !inputValue.trim(),
@@ -92,14 +97,12 @@ export function useChatbot() {
 
     try {
       // 🚀 Setup real-time streaming callbacks
-      const streamingCallbacks = conversationManager.startRealTimeStreaming(
-        conversationManager.handleStreamingChunk
-      );
+      const streamingCallbacks = conversationManager.startRealTimeStreaming();
 
       console.log('🎯 Starting real-time streaming...');
 
       // 🚀 Call optimized streaming API
-      const response = await difyService.sendMessageStreaming(
+      await difyService.sendMessageStreaming(
         currentInput, 
         currentConversationId,
         {
@@ -145,7 +148,7 @@ export function useChatbot() {
         conversationManager.simulateStreaming('Xin lỗi, có lỗi xảy ra. Vui lòng thử lại.');
       }, 300);
     }
-  };
+  }, [inputValue, conversationManager, difyService]);
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -204,7 +207,7 @@ export function useChatbot() {
   };
 
   // Clear conversation với session options
-  const clearCurrentConversation = () => {
+  const clearCurrentConversation = useCallback(() => {
     console.log('🗑️ === CLEARING CONVERSATION ===');
     console.log('Before clear - ConversationId:', conversationManager.conversationId);
     console.log('Current User ID:', difyService.getCurrentUserId());
@@ -216,10 +219,10 @@ export function useChatbot() {
     difyService.clearConversationCache();
     
     console.log('🗑️ Conversation cleared (user ID preserved)');
-  };
+  }, [conversationManager, difyService]);
 
   // Clear toàn bộ session
-  const clearEntireSession = () => {
+  const clearEntireSession = useCallback(() => {
     console.log('🗑️ === CLEARING ENTIRE SESSION ===');
     
     conversationManager.clearSession();
@@ -229,21 +232,22 @@ export function useChatbot() {
     difyService.clearSession();
     
     console.log('🗑️ Entire session cleared');
-  };
+  }, [conversationManager, difyService]);
 
   // Debug utilities
-  const debugConversationState = () => {
+  const debugConversationState = useCallback(() => {
     console.log('🔍 === DEBUG CONVERSATION STATE ===');
     console.log('Conversation ID:', conversationManager.conversationId);
     console.log('User ID:', difyService.getCurrentUserId());
     console.log('Messages:', conversationManager.messages);
     console.log('Cache:', difyService.getConversationCache());
     console.log('=====================================');
-  };
+  }, [conversationManager.conversationId, conversationManager.messages, difyService]);
 
   // Expose debug functions (development only)
   useEffect(() => {
     if (typeof window !== 'undefined' && process.env.NODE_ENV === 'development') {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       (window as any).debugChatbot = {
         state: debugConversationState,
         clearCache: () => difyService.clearConversationCache(),
@@ -256,7 +260,7 @@ export function useChatbot() {
         }
       };
     }
-  }, [conversationManager.conversationId]);
+  }, [clearEntireSession, debugConversationState, difyService, handleSendMessage]);
 
   // Resize functionality
   const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>, direction: string) => {

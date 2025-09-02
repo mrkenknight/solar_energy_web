@@ -1,6 +1,6 @@
 // src/components/chatbot/conversationManager.ts
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import { Message } from './types';
 
 export interface ConversationState {
@@ -74,7 +74,7 @@ export function useConversationManager() {
   }, []);
 
   // 🚀 NEW: Real-time streaming (thay thế simulateStreaming)
-  const startRealTimeStreaming = useCallback((onChunk: (chunk: string) => void): {
+  const startRealTimeStreaming = useCallback((): {
     complete: (fullMessage: string) => void;
     error: (errorMessage: string) => void;
   } => {

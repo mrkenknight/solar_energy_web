@@ -39,28 +39,56 @@ export class DifyApiService {
     return DifyApiService.instance;
   }
 
-  private getOrCreateUserId(): string {
-    try {
-      const existingUserId = sessionStorage.getItem('chatbot_user_id');
-      if (existingUserId) {
-        console.log('📱 Retrieved existing user ID:', existingUserId);
-        return existingUserId;
-      }
-    } catch (error) {
-      console.warn('⚠️ SessionStorage not available');
-    }
+//   private getOrCreateUserId(): string {
+//     try {
+//       const existingUserId = sessionStorage.getItem('chatbot_user_id');
+//       if (existingUserId) {
+//         console.log('📱 Retrieved existing user ID:', existingUserId);
+//         return existingUserId;
+//       }
+//     } catch {
+//       console.warn('⚠️ SessionStorage not available:');
+//     }
 
-    const newUserId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+//     const newUserId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
     
-    try {
-      sessionStorage.setItem('chatbot_user_id', newUserId);
-      console.log('💾 Created new user ID:', newUserId);
-    } catch (error) {
-      console.warn('⚠️ Could not store user ID');
+//     try {
+//       sessionStorage.setItem('chatbot_user_id', newUserId);
+//       console.log('💾 Created new user ID:', newUserId);
+//     } catch {
+//       console.warn('⚠️ Could not store user ID:');
+//     }
+    
+//     return newUserId;
+//   }
+    private getOrCreateUserId(): string {
+        // Kiểm tra xem có đang chạy trên client không
+        if (typeof window === 'undefined') {
+        // Server-side: tạo ID tạm thời
+        return 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        }
+    
+        try {
+        const existingUserId = sessionStorage.getItem('chatbot_user_id');
+        if (existingUserId) {
+            console.log('📱 Retrieved existing user ID:', existingUserId);
+            return existingUserId;
+        }
+        } catch (err) {
+        console.warn('⚠️ SessionStorage not available');
+        }
+    
+        const newUserId = 'user-' + Date.now() + '-' + Math.random().toString(36).substr(2, 9);
+        
+        try {
+        sessionStorage.setItem('chatbot_user_id', newUserId);
+        console.log('💾 Created new user ID:', newUserId);
+        } catch (err) {
+        console.warn('⚠️ Could not store user ID');
+        }
+        
+        return newUserId;
     }
-    
-    return newUserId;
-  }
 
   public getCurrentUserId(): string {
     return this.userId;
@@ -151,7 +179,7 @@ export class DifyApiService {
       let finalConversationId: string | undefined;
       let buffer = '';
 
-      console.log('🔄 Starting real-time stream processing...');
+      console.log('📄 Starting real-time stream processing...');
 
       while (true) {
         const { done, value } = await reader.read();
@@ -204,7 +232,7 @@ export class DifyApiService {
         }
       }
 
-      // Xử lý buffer còn lại
+      // Xử lý buffer còn lại (nếu cần)
       if (buffer.trim()) {
         // Xử lý dòng cuối cùng nếu có
       }
@@ -228,8 +256,8 @@ export class DifyApiService {
       callbacks?.onComplete?.(result.message, result.conversationId);
       return result;
 
-    } catch (error) {
-      console.error('💥 Streaming error:', error);
+    } catch (err) {
+      console.error('💥 Streaming error:', err);
       
       const errorMsg = 'Xin lỗi, có lỗi mạng. Vui lòng thử lại.';
       callbacks?.onError?.(errorMsg);
@@ -273,10 +301,13 @@ export class DifyApiService {
   public clearSession(): void {
     this.conversationCache.clear();
     
-    try {
-      sessionStorage.removeItem('chatbot_user_id');
-    } catch (error) {
-      console.warn('⚠️ Could not clear sessionStorage');
+    // Chỉ clear sessionStorage khi đang chạy trên client
+    if (typeof window !== 'undefined') {
+      try {
+        sessionStorage.removeItem('chatbot_user_id');
+      } catch (err) {
+        console.warn('⚠️ Could not clear sessionStorage');
+      }
     }
     
     this.userId = this.getOrCreateUserId();
