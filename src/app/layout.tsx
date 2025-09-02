@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Lavishly_Yours } from "next/font/google";
 import "./globals.css";
-import AIChatWidget from "@/components/AIChatWidget";
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,7 +38,6 @@ export default function RootLayout({
         {children}
         
         {/* Custom AI Chat Widget */}
-        <AIChatWidget />
       </body>
     </html>
   );

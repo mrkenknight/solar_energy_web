@@ -10,6 +10,7 @@ import CustomerStorySection from '@/components/home/CustomerStorySection';
 import WhySunrunSection from '@/components/home/WhySunrunSection';
 import CareersCTASection from '@/components/home/CareersCTASection';
 import Footer from '@/components/layout/Footer';
+import ChatWidget from '@/components/chatbot/ChatWidget';
 
 export default function Home() {
   return (
@@ -29,6 +30,9 @@ export default function Home() {
       </main>
 
       <Footer />
+      
+      {/* ChatWidget sẽ hiện ở dưới phải màn hình */}
+      <ChatWidget />
     </div>
   );
 }
