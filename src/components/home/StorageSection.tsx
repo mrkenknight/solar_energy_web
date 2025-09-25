@@ -80,7 +80,7 @@ export default function StorageSection() {
                         
                         <div className="relative rounded-2xl overflow-hidden shadow-2xl aspect-[4/3] border border-emerald-500/20">
                              <img 
-                                src="https://cdn-assets-us.frontify.com/s3/frontify-enterprise-files-us/eyJwYXRoIjoic3VucnVuXC9maWxlXC9CWkZBcHJleDRvNTNTWVR1elBCVS5qcGcifQ:sunrun:A71CX2-EtVlMi7NE2cBuedUabcKfr-kByFiG00E-sws?width=1680&format=webp"
+                                src="https://i.pinimg.com/1200x/f2/bc/ed/f2bcedbcb607510c2846f585565b4ed6.jpg"
                                 alt="Mother and child with a red ball"
                                 className="w-full h-full object-cover"
                             />

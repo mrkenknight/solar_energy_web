@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+import Link from "next/link";
 import { Menu, X, Phone, MapPin } from 'lucide-react';
-import { motion } from 'framer-motion';
 
 export default function Header() {
   const [isVisible, setIsVisible] = useState(true);
@@ -27,10 +27,10 @@ export default function Header() {
   }, [lastScrollY]);
 
   const navItems = [
-    { name: 'Gói dịch vụ', href: '#' },
-    { name: 'Sản phẩm', href: '#' },
+    { name: 'Gói dịch vụ', href: '/goi-dich-vu' },
+    { name: 'Sản phẩm', href: '/san-pham' },
     { name: 'Khám phá', href: '#' },
-    { name: 'Về chúng tôi', href: '#' },
+    { name: 'Về chúng tôi', href: '/ve-chung-toi' },
   ];
 
   return (
@@ -54,15 +54,35 @@ export default function Header() {
           <div className="flex items-center justify-between h-15">
             {/* Logo */}
             <div className="flex items-center">
-              <a href="#" className="text-3xl font-bold tracking-tighter text-gray-900">
-                ĐIỆN XANH
-              </a>
+            <Link href="/" className="flex items-center space-x-4 group">
+                {/* Logo PNG với glass effect */}
+                <div className="relative">
+                  <div className="w-15 h-15 bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 group-hover:bg-white/90 group-hover:shadow-xl group-hover:shadow-emerald-500/20 transition-all duration-400">
+                    <img 
+                      src="logo_dienxanh.png" 
+                      alt="Điện Xanh Logo" 
+                      className="w-full h-full object-contain p-1"
+                    />
+                  </div>
+                  {/* Glow effect */}
+                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-br from-emerald-400/20 via-transparent to-green-400/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                </div>
+                {/* Text với glassmorphism */}
+                <div className="relative">
+                  <span className="text-3xl font-pacifico text-gray-900 tracking-tight group-hover:drop-shadow-lg transition-all duration-300">
+                    <span className="text-gray-800 group-hover:text-emerald-700">Điện </span>
+                    <span className="text-emerald-600 group-hover:text-gray-800 ml-1">Xanh</span>
+                  </span>
+                  {/* Shine effect */}
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 group-hover:translate-x-full transition-all duration-1000 transform -translate-x-full -skew-x-12"></div>
+                </div>
+              </Link>
             </div>
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-10">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.name}
                   href={item.href}
                   className="relative text-gray-600 hover:text-red-600 transition-colors duration-300 font-medium group"
@@ -70,7 +90,7 @@ export default function Header() {
                   {item.name}
                   {/* Animated underline */}
                   <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-red-600 group-hover:w-full group-hover:left-0 transition-all duration-300 ease-out"></span>
-                </a>
+                </Link>
               ))}
             </nav>
 
@@ -85,15 +105,8 @@ export default function Header() {
                 <span>Liên hệ</span>
               </a>
 
-              {/* Nút CTA với hiệu ứng Framer Motion */}
-              <motion.button
-                whileHover={{ 
-                  scale: 1.05,
-                  boxShadow: "0 12px 30px -6px rgba(255, 215, 0, 0.35)" // vàng nhẹ
-                }}
-                whileTap={{ scale: 0.96 }}
-                className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-full px-6 py-2.5 font-semibold transition-all duration-300 shadow-lg shadow-green-500/25 border border-green-400/30"
-              >
+              {/* Nút CTA */}
+              <button className="group relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-full px-6 py-2.5 font-semibold transition-all duration-300 shadow-lg shadow-green-500/25 border border-green-400/30 hover:scale-105">
                 <span className="relative z-10">Đặt hàng ngay</span>
 
                 {/* Hiệu ứng vàng overlay */}
@@ -101,7 +114,7 @@ export default function Header() {
 
                 {/* Glow vàng mờ ảo */}
                 <div className="absolute inset-0 rounded-full bg-gradient-to-r from-yellow-300/0 via-yellow-400/15 to-yellow-300/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-              </motion.button>
+              </button>
             </div>
 
             {/* Mobile menu button */}

@@ -77,18 +77,53 @@ export default function HeroSection() {
             VĨNH PHÚC
           </motion.h1>
 
-          {/* Subtitle */}
+          {/* Subtitle với hiệu ứng typewriter */}
+          <motion.div
+          variants={itemVariants}
+          className="relative mb-10"
+          >
           <motion.p
-            variants={itemVariants}
-            className="text-4xl md:text-6xl text-white font-lavishly mb-10 whitespace-nowrap"
+            className="text-3xl md:text-5xl text-white font-lavishly relative"
             style={{
-              color: '#ffffff', // trắng sáng
-              WebkitTextStroke: '0.5px rgba(255,255,255,0.3)', // viền sáng mảnh hơn tiêu đề
-              textShadow: '0 3px 8px rgba(0,0,0,0.35)',        // bóng mềm, giúp chữ nổi mà vẫn tinh tế
+              color: '#ffffff',
+              WebkitTextStroke: '1px rgba(250,204,21,0.4)',
+              textShadow: '0 4px 16px rgba(0,0,0,0.4), 0 0 30px rgba(250,204,21,0.2)',
+            }}
+            animate={{
+              backgroundPosition: ['0% 50%', '100% 50%', '0% 50%'],
+            }}
+            transition={{
+              duration: 3,
+              repeat: Infinity,
+              ease: "linear"
             }}
           >
             Điện xanh lan tỏa - Chuyển hóa tương lai
+            
+            {/* Floating sparkles around text */}
+            {[...Array(6)].map((_, i) => (
+              <motion.span
+                key={i}
+                className="absolute w-1 h-1 bg-yellow-300 rounded-full"
+                style={{
+                  left: `${10 + i * 15}%`,
+                  top: `${20 + (i % 2) * 60}%`,
+                }}
+                animate={{
+                  scale: [0, 1, 0],
+                  opacity: [0, 1, 0],
+                  rotate: [0, 180, 360],
+                }}
+                transition={{
+                  duration: 2,
+                  repeat: Infinity,
+                  delay: i * 0.3,
+                  ease: "easeInOut"
+                }}
+              />
+            ))}
           </motion.p>
+          </motion.div>
 
           {/* Enhanced CTA Button */}
           <motion.div 

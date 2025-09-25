@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { 
-  MessageCircle, 
   X, 
   Send, 
   Copy, 
@@ -15,6 +14,16 @@ import {
   ThumbsDown
 } from 'lucide-react';
 import { useChatbot } from './useChatbot';
+
+// Kodee Icon Component - Import SVG file
+const KodeeIcon = ({ className = "w-30 h-30" }: { className?: string }) => (
+  <img 
+    src="/logo_ai.svg" 
+    alt="Logo AI" 
+    className={className}
+    style={{ filter: 'none' }} // Giữ nguyên màu gốc
+  />
+);
 
 export default function ChatWidget() {
   const {
@@ -52,6 +61,43 @@ export default function ChatWidget() {
     handleMouseDown,
   } = useChatbot();
 
+  // Enhanced send message handler with auto-focus
+  const handleSendMessageWithFocus = async () => {
+    await handleSendMessage();
+    // Auto focus back to input after sending message
+    setTimeout(() => {
+      if (inputRef.current && !isTyping) {
+        inputRef.current.focus();
+      }
+    }, 100);
+  };
+
+  // Enhanced key press handler
+  const handleKeyPressWithFocus = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessageWithFocus();
+    }
+  };
+
+  // Auto focus when chat opens or minimized state changes
+  React.useEffect(() => {
+    if (isOpen && !isMinimized && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 300); // Small delay to ensure smooth animation
+    }
+  }, [isOpen, isMinimized]);
+
+  // Auto focus after typing ends
+  React.useEffect(() => {
+    if (!isTyping && isOpen && !isMinimized && inputRef.current) {
+      setTimeout(() => {
+        inputRef.current?.focus();
+      }, 500); // Wait for bot to finish typing
+    }
+  }, [isTyping, isOpen, isMinimized]);
+
   return (
     <>
       {isClient && (
@@ -67,8 +113,8 @@ export default function ChatWidget() {
                 
                 <div className="relative bg-gradient-to-r from-purple-500 to-purple-600 rounded-full px-5 py-3 shadow-lg transition-all duration-200 group-hover:shadow-xl group-hover:-translate-y-1">
                   <div className="flex items-center space-x-2">
-                    <MessageCircle className="w-5 h-5 text-white" />
-                    <span className="text-white font-medium text-sm">GPT Tư vấn</span>
+                    <KodeeIcon className="w-5 h-5 text-white" />
+                    <span className="text-white font-medium text-sm">GPT Tư Vấn</span>
                   </div>
                   
                   <div className="absolute -top-1 -right-1 w-3 h-3 bg-green-400 rounded-full border-2 border-white">
@@ -141,10 +187,10 @@ export default function ChatWidget() {
                 <div className="bg-gradient-to-r from-purple-500 to-purple-600 px-4 py-2.5 flex items-center justify-between text-white">
                   <div className="flex items-center space-x-2">
                     <div className="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
-                      <Bot className="w-3 h-3 text-white" />
+                      <KodeeIcon className="w-5 h-5 text-white" />
                     </div>
                     <div>
-                      <h3 className="font-medium text-xs">GPT Tư vấn</h3>
+                      <h3 className="font-medium text-xs">GPT Tư Vấn</h3>
                       {!isMinimized && (
                         <div className="flex items-center space-x-1 text-xs opacity-90">
                           <div className="w-1.5 h-1.5 bg-green-400 rounded-full"></div>
@@ -299,16 +345,17 @@ export default function ChatWidget() {
                             ref={inputRef}
                             value={inputValue}
                             onChange={(e) => setInputValue(e.target.value)}
-                            onKeyPress={handleKeyPress}
+                            onKeyPress={handleKeyPressWithFocus}
                             placeholder="Nhập câu hỏi..."
                             className="w-full resize-none bg-gray-50 border border-gray-200 rounded-lg px-3 py-2 text-sm text-gray-800 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent max-h-20"
                             rows={1}
                             disabled={isTyping}
+                            autoFocus
                           />
                         </div>
 
                         <button
-                          onClick={handleSendMessage}
+                          onClick={handleSendMessageWithFocus}
                           disabled={!inputValue.trim() || isTyping}
                           className="p-3 bg-purple-500 text-white rounded-lg hover:bg-purple-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors shadow-sm"
                         >

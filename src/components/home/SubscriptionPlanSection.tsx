@@ -70,7 +70,7 @@ export default function SubscriptionPlanSection() {
                         
                         <div className="relative rounded-3xl overflow-hidden shadow-2xl aspect-[4/3] border border-amber-200/40">
                              <img 
-                                src="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1287&q=80" 
+                                src="https://i.pinimg.com/1200x/d4/d0/c7/d4d0c7209cf1cfe62e669b65e5189e45.jpg" 
                                 alt="Professional team discussing solar energy solutions"
                                 className="w-full h-full object-cover"
                             />

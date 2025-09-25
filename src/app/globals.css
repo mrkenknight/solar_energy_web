@@ -29,6 +29,10 @@ body {
   font-family: var(--font-lavishly-yours);
 }
 
+.font-pacifico {
+  font-family: var(--font-pacifico);
+}
+
 /* ===== AI Chat Widget Styles ===== */
 
 /* Custom scrollbar for chat messages */

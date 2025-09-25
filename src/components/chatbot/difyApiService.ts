@@ -5,7 +5,7 @@ import { DifyConfig } from './types';
 // Cấu hình Dify
 const DIFY_CONFIG: DifyConfig = {
   apiUrl: 'https://api.dify.ai/v1',
-  apiKey: 'app-lJLBpVNFB4mRsMiCVobGmEcF',
+  apiKey: 'app-ngAnaU4Urrx4L62IXBf1wWa9',
 };
 
 export interface DifyApiResponse {

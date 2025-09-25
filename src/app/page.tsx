@@ -9,7 +9,6 @@ import AppSection from '@/components/home/AppSection';
 import CustomerStorySection from '@/components/home/CustomerStorySection';
 import WhySunrunSection from '@/components/home/WhySunrunSection';
 import CareersCTASection from '@/components/home/CareersCTASection';
-import Footer from '@/components/layout/Footer';
 import ChatWidget from '@/components/chatbot/ChatWidget';
 
 export default function Home() {
@@ -28,11 +27,9 @@ export default function Home() {
         <WhySunrunSection />
         <CareersCTASection />
       </main>
-
-      <Footer />
       
       {/* ChatWidget sẽ hiện ở dưới phải màn hình */}
-      <ChatWidget />
+      {/* <ChatWidget /> */}
     </div>
   );
 }
