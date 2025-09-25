@@ -64,7 +64,7 @@ export function useConversationManager() {
       const welcomeMessage: Message = {
         id: 1,
         type: 'bot',
-        content: 'Xin chào! ☀️ Tôi là trợ lý tư vấn năng lượng mặt trời. Tôi có thể giúp bạn:\n\n• Tư vấn hệ thống điện mặt trời\n• Tính toán công suất phù hợp\n• Báo giá và lắp đặt\n• Chính sách hỗ trợ\n\nBạn quan tâm đến vấn đề gì?',
+        content: 'Xin chào! ☀️ Tôi là trợ lý tư vấn Điện Xanh Solar Vĩnh Phúc. Tôi có thể giúp bạn:\n\n• Tư vấn hệ thống điện mặt trời\n• Tính toán công suất phù hợp\n• Báo giá và lắp đặt\n• Chính sách hỗ trợ\n\nBạn quan tâm đến vấn đề gì?',
         timestamp: new Date()
       };
       setMessages([welcomeMessage]);
