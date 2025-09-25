@@ -51,7 +51,11 @@ export default function PremiumSolarWebsite() {
           if (entry.isIntersecting) {
             const elementId = entry.target.getAttribute('data-animate');
             if (elementId) {
-              setVisibleElements(prev => new Set([...prev, elementId]));
+              setVisibleElements(prev => {
+                const newSet = new Set(prev);
+                newSet.add(elementId);
+                return newSet;
+              });
             }
           }
         });
